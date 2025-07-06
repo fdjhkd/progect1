@@ -1,7 +1,6 @@
 #include "JsonPacketSerializer.h"
 
-
-/*
+/**
  This function builds a JSON response string from a response type and optional data.
  param: responseType - the type of the response
  param: data - optional JSON-formatted data to include
@@ -13,7 +12,7 @@ inline std::string makeJsonResponse(const std::string& responseType, const std::
 	return "{\"" RESPONSE_KEY "\": \"" + responseType + "\"" + (data.empty() ? "" : ", \"" DATA_KEY "\": " + data) + "}";
 }
 
-/*
+/**
  This function serializes an error response to a plain string (message only).
  param: response - the ErrorResponse object
  return: std::string - error message
@@ -24,7 +23,7 @@ std::string JsonPacketSerializer::serializeResponse(const ErrorResponse& respons
 	return response.message;
 }
 
-/*
+/**
  This function serializes a login response to a JSON string.
  param: response - the LoginResponse object
  return: std::string - JSON response
@@ -35,7 +34,7 @@ std::string JsonPacketSerializer::serializeResponse(const LoginResponse& respons
 	return makeJsonResponse(response.response);
 }
 
-/*
+/**
  This function serializes a signup response to a JSON string.
  param: response - the SignupResponse object
  return: std::string - JSON response
@@ -46,7 +45,18 @@ std::string JsonPacketSerializer::serializeResponse(const SignupResponse& respon
 	return makeJsonResponse(response.response);
 }
 
-/*
+/**
+ This function serializes a signout response to a JSON string.
+ param: response - the SignoutResponse object
+ return: std::string - JSON response
+ time: O(1)
+*/
+std::string JsonPacketSerializer::serializeResponse(const SignoutResponse& response)
+{
+	return makeJsonResponse(response.response);
+}
+
+/**
  This function serializes a join room response to a JSON string.
  param: response - the JoinRoomResponse object
  return: std::string - JSON response
@@ -57,18 +67,7 @@ std::string JsonPacketSerializer::serializeResponse(const JoinRoomResponse& resp
 	return makeJsonResponse(response.response);
 }
 
-/*
- This function serializes a join room response to a JSON string.
- param: response - the JoinRoomResponse object
- return: std::string - JSON response
- time: O(1)
-*/
-std::string JsonPacketSerializer::serializeResponse(const JoinRoomResponse& response)
-{
-	return makeJsonResponse(response.response);
-}
-
-/*
+/**
  This function serializes a create room response to a JSON string.
  param: response - the CreateRoomResponse object
  return: std::string - JSON response
@@ -79,7 +78,7 @@ std::string JsonPacketSerializer::serializeResponse(const CreateRoomResponse& re
 	return makeJsonResponse(response.response);
 }
 
-/*
+/**
  This function serializes a close room response to a JSON string.
  param: response - the CloseRoomResponse object
  return: std::string - JSON response
@@ -90,8 +89,7 @@ std::string JsonPacketSerializer::serializeResponse(const CloseRoomResponse& res
 	return makeJsonResponse(response.response);
 }
 
-
-/*
+/**
  This function serializes a start game response to a JSON string.
  param: response - the StartGameResponse object
  return: std::string - JSON response
@@ -102,7 +100,7 @@ std::string JsonPacketSerializer::serializeResponse(const StartGameResponse& res
 	return makeJsonResponse(response.response);
 }
 
-/*
+/**
  This function serializes a leave room response to a JSON string.
  param: response - the LeaveRoomResponse object
  return: std::string - JSON response
@@ -113,7 +111,7 @@ std::string JsonPacketSerializer::serializeResponse(const LeaveRoomResponse& res
 	return makeJsonResponse(response.response);
 }
 
-/*
+/**
  This function serializes the state of a room including players, game status, and timeout.
  param: response - the GetRoomStateResponse object
  return: std::string - JSON-formatted room state
@@ -137,7 +135,8 @@ std::string JsonPacketSerializer::serializeResponse(const GetRoomStateResponse& 
 	return makeJsonResponse(response.response, data);
 }
 
-/*
+
+/**
  This function serializes the list of available rooms with their metadata.
  param: response - the GetRoomsResponse object
  return: std::string - JSON-formatted room list
@@ -160,7 +159,7 @@ std::string JsonPacketSerializer::serializeResponse(const GetRoomsResponse& resp
 	return makeJsonResponse(response.response, roomJson);
 }
 
-/*
+/**
  This function serializes a highscore table of users and their scores.
  param: response - the HighscoreResponse object
  return: std::string - JSON-formatted highscores
@@ -180,7 +179,7 @@ std::string JsonPacketSerializer::serializeResponse(const HighscoreResponse& res
 	return makeJsonResponse(response.response, userJson);
 }
 
-/*
+/**
  This function serializes a list of users currently in a room.
  param: response - the GetPlayersInRoomResponse object
  return: std::string - JSON list of users
@@ -198,7 +197,7 @@ std::string JsonPacketSerializer::serializeResponse(const GetPlayersInRoomRespon
 	return makeJsonResponse(response.response, userJson);
 }
 
-/*
+/**
  This function serializes a question and its answer options if available.
  param: response - the GetQuestionResponse object
  return: std::string - JSON with question and answers or status only
@@ -226,7 +225,7 @@ std::string JsonPacketSerializer::serializeResponse(const GetQuestionResponse& r
 	}
 }
 
-/*
+/**
  This function serializes the results of a game including correct/wrong counts and times.
  param: response - the GetGameResultsResponse object
  return: std::string - JSON-formatted results
@@ -248,7 +247,7 @@ std::string JsonPacketSerializer::serializeResponse(const GetGameResultsResponse
 	return makeJsonResponse(response.response, resultJson);
 }
 
-/*
+/**
  This function serializes the answer submission result, including correct answer ID if correct.
  param: response - the SubmitAnswerResponse object
  return: std::string - JSON response
@@ -261,7 +260,7 @@ std::string JsonPacketSerializer::serializeResponse(const SubmitAnswerResponse& 
 	return makeJsonResponse(response.response, data);
 }
 
-/*
+/**
  This function serializes a user's statistics like scores and average time.
  param: response - the GetUserStatsResponse object
  return: std::string - JSON stats object
@@ -276,7 +275,7 @@ std::string JsonPacketSerializer::serializeResponse(const GetUserStatsResponse& 
 	return makeJsonResponse(response.response, data);
 }
 
-/*
+/**
  This function detects the real type of a RequestResult and dispatches serialization to the correct function.
  param: req - the base pointer to a response object
  return: std::string - JSON-formatted serialized response
