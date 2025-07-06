@@ -66,14 +66,32 @@ namespace Client
             {
                 type = "get_room_state"
             };
-            string roomState = CurrentClient.GetCommunicator().GetRoomStateRequest(Newtonsoft.Json.JsonConvert.SerializeObject(jsonRequest, new Newtonsoft.Json.JsonSerializerSettings
+
+            string roomState = CurrentClient.GetCommunicator().GetRoomStateRequest(
+                JsonConvert.SerializeObject(jsonRequest));
+
+            roomState = roomState.Replace("\"\"user1\"\"", "\"user1\"");
+
+            var fullResponse = JsonConvert.DeserializeObject<Dictionary<string, object>>(roomState);
+            var dataJson = fullResponse["data"].ToString();
+            var dataDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataJson);
+            var playersJson = dataDict["players"].ToString();
+
+            var rawPlayers = JsonConvert.DeserializeObject<Dictionary<string, string>>(playersJson);
+
+            var cleanedPlayers = new Dictionary<string, string>();
+            foreach (var kvp in rawPlayers)
             {
-                NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
-                Formatting = Newtonsoft.Json.Formatting.None
-            }));
-            roomState = GetPlayerInRoom(roomState);
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(roomState);
+                string cleanedName = kvp.Value.Trim('"');
+                cleanedPlayers[kvp.Key] = cleanedName;
+            }
+
+            return cleanedPlayers;
         }
+
+
+
+
         private string GetPlayerInRoom(string Information)
         {
             string[] msg = Information.Split(',');
