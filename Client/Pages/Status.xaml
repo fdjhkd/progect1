@@ -1,0 +1,87 @@
+﻿<Window x:Class="Client.Status"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="Status" Height="450" Width="800" Background="Black">
+
+    <Window.Resources>
+        <!-- Neon color -->
+        <SolidColorBrush x:Key="NeonBlue" Color="#00FFFF"/>
+        <SolidColorBrush x:Key="NeonPink" Color="#FF39FF"/>
+
+        <!-- Glow effect -->
+        <DropShadowEffect x:Key="NeonGlowBlue" Color="#00FFFF" BlurRadius="15" ShadowDepth="0" Opacity="0.9"/>
+        <DropShadowEffect x:Key="NeonGlowPink" Color="#FF39FF" BlurRadius="15" ShadowDepth="0" Opacity="0.9"/>
+
+        <!-- Style for neon label -->
+        <Style TargetType="Label" x:Key="NeonLabelStyle">
+            <Setter Property="FontFamily" Value="Levenim MT"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Foreground" Value="{StaticResource NeonBlue}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Effect" Value="{StaticResource NeonGlowBlue}"/>
+            <Setter Property="Margin" Value="113,0,113,77"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Height" Value="258"/>
+        </Style>
+
+        <!-- Neon button -->
+        <Style TargetType="Button" x:Key="NeonButtonStyle">
+            <Setter Property="FontFamily" Value="MV Boli"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="{StaticResource NeonPink}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{StaticResource NeonPink}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="49"/>
+            <Setter Property="Margin" Value="0,0,336,10"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Effect" Value="{StaticResource NeonGlowPink}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="12" >
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Background" Value="{StaticResource NeonPink}"/>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="White" BlurRadius="25" ShadowDepth="0" Opacity="1"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#CCFF33FF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="background.png"
+                        AlignmentY="Center" AlignmentX="Center"/>
+        </Grid.Background>
+
+        <Label Name="Stats" Content="Your stats will be here..." Style="{StaticResource NeonLabelStyle}"/>
+
+        <Button Name="ExitGame" Content="Back To Menu" Click="Back_Click" Style="{StaticResource NeonButtonStyle}"/>
+    </Grid>
+</Window>
